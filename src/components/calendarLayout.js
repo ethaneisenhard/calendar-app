@@ -1,14 +1,13 @@
 import React, { useState } from "react"
-import * as dateFns from "date-fns"
+import moment from "moment"
 import "../styles/calendarLayout.scss"
 
 const Calendar = () => {
-
   const [currentDate, setCurrentDate] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState(new Date())
 
   const header = () => {
-    const dateFormat = "MMMM yyyy"
+    const dateFormat = "MMMM YYYY"
     return (
       <div className="header row flex-middle">
         <div className="column col-start">
@@ -17,7 +16,9 @@ const Calendar = () => {
           </div>
         </div>
         <div className="column col-center">
-          <span>{dateFns.format(currentDate, dateFormat)}</span>
+          <span className="month">
+            {moment(currentDate).format(dateFormat)}
+          </span>
         </div>
         <div className="column col-end">
           <div className="icon" onClick={nextMonth}>
@@ -28,49 +29,51 @@ const Calendar = () => {
     )
   }
   const days = () => {
-    const dateFormat = "ddd"
     const days = []
-    let startDate = dateFns.startOfWeek(currentDate)
-    for (let i = 0; i < 7; i++) {
-      days.push(
-        <div className="column col-center" key={i}>
-          {dateFns.format(dateFns.addDays(startDate, i), dateFormat)}
+    const weekdays = moment.weekdays()
+
+    weekdays.map(day => {
+      return days.push(
+        <div className="column col-center" key={day}>
+          {day}
         </div>
       )
-    }
+    })
+
     return <div className="days row">{days}</div>
   }
   const cells = () => {
-    const monthStart = dateFns.startOfMonth(currentDate)
-    const monthEnd = dateFns.endOfMonth(monthStart)
-    const startDate = dateFns.startOfWeek(monthStart)
-    const endDate = dateFns.endOfWeek(monthEnd)
-    const dateFormat = "d"
+    const monthStart = moment(currentDate).startOf('month');
+    const monthEnd = moment(monthStart).endOf('month');
+    const startDate = moment(monthStart).startOf('week');
+    const endDate =   moment(monthEnd).endOf('week');
+
+    const dateFormat = "D"
     const rows = []
     let days = []
     let day = startDate
     let formattedDate = ""
     while (day <= endDate) {
       for (let i = 0; i < 7; i++) {
-        formattedDate = dateFns.format(day, dateFormat)
-        // const cloneDay = day
+        formattedDate = moment(day).format(dateFormat)  // dateFns.format(day, dateFormat)
+        const cloneDay = day
         days.push(
           <div
             className={`column cell ${
-              !dateFns.isSameMonth(day, monthStart)
+              ! moment(day).isSame(monthStart, 'month')  // dateFns.isSameMonth(day, monthStart)
                 ? "disabled"
-                : dateFns.isSameDay(day, selectedDate)
+                : moment(day).isSame(selectedDate, 'day') // dateFns.isSameDay(day, selectedDate)
                 ? "selected"
                 : ""
             }`}
             key={day}
-            // onClick={() => onDateClick(dateFns.parse(cloneDay))}
+            onClick={() => onDateClick(moment.parseZone(cloneDay))}
           >
             <span className="number">{formattedDate}</span>
             <span className="bg">{formattedDate}</span>
           </div>
         )
-        day = dateFns.addDays(day, 1)
+        day = moment(day).add(1, "days") // dateFns.addDays(day, 1)
       }
       rows.push(
         <div className="row" key={day}>
@@ -82,14 +85,16 @@ const Calendar = () => {
     return <div className="body">{rows}</div>
   }
   const nextMonth = () => {
-    setCurrentDate(dateFns.addMonths(currentDate, 1))
+    setCurrentDate(moment(currentDate).add(1, 'month')) //
   }
   const prevMonth = () => {
-    setCurrentDate(dateFns.subMonths(currentDate, 1))
+    setCurrentDate(moment(currentDate).subtract(1, 'month'))
   }
-//   const onDateClick = day => {
-//     setSelectedDate(day)
-//   }
+  const onDateClick = day => {
+    setSelectedDate(day)
+    alert(day);
+  }
+
   return (
     <div className="calendar">
       <div>{header()}</div>
