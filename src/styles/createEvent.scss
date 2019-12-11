@@ -1,0 +1,10 @@
+#createEventForm{
+    display: flex;
+    flex-flow: column;
+
+    .date{
+        label{
+            display: block;
+        }
+    }
+}

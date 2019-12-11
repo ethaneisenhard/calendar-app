@@ -1,15 +1,31 @@
+const axios = require('axios');
+
 export const setEvent = (store, data) => {
   const eventData = data;
-  store.setState({ eventData })
+  const parseData = JSON.parse(eventData);
+  store.setState({ eventData });
 
-  //acts like Post server request
-  localStorage.setItem('eventData', eventData);
+  axios.post('http://localhost:3000/events', {
+    id: parseData.id,
+    title: parseData.title,
+    location: parseData.location, 
+    startDate: parseData.startDate, 
+    endDate: parseData.endDate, 
+    description: parseData.description
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+
 }
 
 export const getEvent = (data) => {
   const eventData = data;
 
   //acts like Get server request
-  return localStorage.getItem('eventData', eventData);
+  return localStorage.getItem('EventDataArray', eventData);
 }
 

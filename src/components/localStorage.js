@@ -3,7 +3,7 @@ import useGlobal from "../store/eventData";
 
 const LocalStorage = () => {
   const [globalState, globalActions] = useGlobal();
-  var localEventData = localStorage.getItem('eventData');
+  var localEventData = localStorage.getItem('EventDataArray');
 
   return (
       <div>
