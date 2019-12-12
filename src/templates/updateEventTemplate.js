@@ -1,17 +1,21 @@
-import React from "react"
+import React, { useState } from "react"
 import { graphql } from "gatsby"
 import useForm from "react-hook-form"
 import useGlobal from "../store/eventData"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import DatePicker from "react-datepicker"
+import moment from "moment";
+
+import "../styles/createEvent.scss"
+import "react-datepicker/dist/react-datepicker.css"
 
 const UpdateEventTemplate = ({ data }) => {
-
-  const { register, handleSubmit, errors } = useForm()
+  const { register, handleSubmit, setValue, errors } = useForm()
   const [globalState, globalActions] = useGlobal()
 
-  // var localEventData = globalActions.getEvent("eventData")
-  // var eventObj = JSON.parse(localEventData)
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
   const updateEvent = data => {
     const stringData = JSON.stringify(data)
@@ -22,23 +26,57 @@ const UpdateEventTemplate = ({ data }) => {
   return (
     <Layout>
       <SEO title="Update Event Template" />
-      {data.allRestApiEthaneisenhardCalendarappdbEvents.nodes.map(({ title, location }) => (
+      {data.allRestApiEthaneisenhardCalendarappdbEvents.nodes.map(
+        ({ eventDetails }) => (
           <div>
-            <form id="updateEvent" onSubmit={handleSubmit(updateEvent)}>
+            <form id="createEventForm" onSubmit={handleSubmit(updateEvent)}>
+              <input name="id" defaultValue={eventDetails.id} ref={register} hidden />
               <label>Title</label>
-              <input
-                name="title"
-                defaultValue={title}
-                ref={register}
-              />
+              <input name="title" defaultValue={eventDetails.title} ref={register} />
               <label>Location</label>
-              <input
-                name="location"
+              <input name="location" defaultValue={eventDetails.location} ref={register} />
+
+              <div className="date">
+                <label>Start Time</label>
+                <input name="startDate" defaultValue={moment(eventDetails.startDate).toDate()} hidden ref={register} />
+                <DatePicker
+                  selected={moment(eventDetails.startDate).toDate()}
+                  onChange={date => setStartDate(date)}
+                  showTimeSelect
+                  timeFormat="hh:mm aa"
+                  timeIntervals={30}
+                  timeCaption="time"
+                  dateFormat="MMMM d, yyyy hh:mm aa"
+                />
+                <label>End Time</label>
+                <input name="endDate" defaultValue={moment(eventDetails.endDate).toDate()} hidden ref={register} />
+                <DatePicker
+                  selected={moment(eventDetails.endDate).toDate()}
+                  onChange={date => setEndDate(date)}
+                  showTimeSelect
+                  timeFormat="hh:mm aa"
+                  timeIntervals={30}
+                  timeCaption="time"
+                  dateFormat="MMMM d, yyyy hh:mm aa"
+                />
+              </div>
+              <label htmlFor="">Descriptions</label>
+              <textarea
+                name="description"
+                id=""
+                cols="30"
+                rows="2"
+                defaultValue={eventDetails.description}
                 ref={register}
-                defaultValue={location}
-              />
+              ></textarea>
               {errors.exampleRequired && <p>This field is required</p>}
-              <input type="submit" />
+              <input
+                type="submit"
+                onClick={() => {
+                  setValue("startDate", startDate)
+                  setValue("endDate", endDate)
+                }}
+              />
             </form>
           </div>
         )
@@ -52,15 +90,19 @@ const UpdateEventTemplate = ({ data }) => {
 export default UpdateEventTemplate
 
 export const query = graphql`
-  query {
-    allRestApiEthaneisenhardCalendarappdbEvents {
+  query($slug: String!) {
+    allRestApiEthaneisenhardCalendarappdbEvents(
+      filter: { fields: { slug: { eq: $slug } } }
+    ) {
       nodes {
-        title
-        startDate
-        location
-        endDate
-        description
-        id
+        eventDetails {
+          title
+          startDate
+          location
+          endDate
+          description
+          id
+        }
         fields {
           slug
         }

@@ -30,7 +30,7 @@ const CreateEventForm = () => {
         <label>Location</label>
         <input name="location" defaultValue="" ref={register} />
         
-        <div class = "date">
+        <div className = "date">
           <label>Start Time</label>
           <input name="startDate" hidden ref={register}/>
           <DatePicker
