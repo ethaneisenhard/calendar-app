@@ -50,6 +50,6 @@ export const getEvent = (data) => {
   const eventData = data;
 
   //acts like Get server request
-  return localStorage.getItem('EventDataArray', eventData);
+  // return localStorage.getItem('EventDataArray', eventData);
 }
 

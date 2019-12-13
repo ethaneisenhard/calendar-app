@@ -6,9 +6,6 @@ const UpdateEventForm = () => {
   const { register, handleSubmit, errors } = useForm()
   const [globalState, globalActions] = useGlobal();
 
-  var localEventData = globalActions.getEvent('eventData');
-  var eventObj = JSON.parse(localEventData);
-
   const updateEvent = data => {
     const stringData = JSON.stringify(data);
     globalActions.setEvent(stringData);
