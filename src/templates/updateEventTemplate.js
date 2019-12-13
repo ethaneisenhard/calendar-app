@@ -28,6 +28,7 @@ const UpdateEventTemplate = ({ data }) => {
       <SEO title="Update Event Template" />
       {data.allRestApiEthaneisenhardCalendarappdbEvents.nodes.map(
         ({ eventDetails }) => (
+
           <div>
             <form id="createEventForm" onSubmit={handleSubmit(updateEvent)}>
               <input name="id" defaultValue={eventDetails.id} ref={register} hidden />
