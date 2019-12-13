@@ -29,7 +29,7 @@ module.exports = {
       },
     },
     {
-      resolve: 'gatsby-source-rest-api',
+      resolve: 'rest',
       options: {
         endpoints: [
           'https://my-json-server.typicode.com/ethaneisenhard/calendarappdb/events'

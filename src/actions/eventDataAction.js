@@ -4,18 +4,38 @@ export const setEvent = (store, data) => {
   const eventData = data;
   const parseData = JSON.parse(eventData);
 
-  var eventDetails = {};
-  eventDetails.id = parseData.id
-  eventDetails.title = parseData.title
-  eventDetails.location = parseData.location
-  eventDetails.startDate = parseData.startDate 
-  eventDetails.endDate = parseData.endDate
-  eventDetails.description = parseData.description 
-
   store.setState({ eventData });
 
   axios.post('http://localhost:3000/events', {
-    eventDetails
+    id: parseData.id,
+    title: parseData.title,
+    location: parseData.location,
+    startDate: parseData.startDate, 
+    endDate: parseData.endDate,
+    description: parseData.description,
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+
+}
+
+export const updateEvent = (store, data) => {
+  const eventData = data;
+  const parseData = JSON.parse(eventData);
+
+  store.setState({ eventData });
+
+  axios.put('http://localhost:3000/events/'+parseData.id, {
+    id: parseData.id,
+    title: parseData.title,
+    location: parseData.location,
+    startDate: parseData.startDate, 
+    endDate: parseData.endDate,
+    description: parseData.description,
   })
   .then(function (response) {
     console.log(response);

@@ -19,7 +19,7 @@ const UpdateEventTemplate = ({ data }) => {
 
   const updateEvent = data => {
     const stringData = JSON.stringify(data)
-    globalActions.setEvent(stringData)
+    globalActions.updateEvent(stringData)
     console.log("updateEvent")
   }
 
@@ -27,20 +27,20 @@ const UpdateEventTemplate = ({ data }) => {
     <Layout>
       <SEO title="Update Event Template" />
       {data.allRestApiEthaneisenhardCalendarappdbEvents.nodes.map(
-        ({ eventDetails }) => (
+        ({ id, title, location, startDate, endDate, description }) => (
           <div>
             <form id="createEventForm" onSubmit={handleSubmit(updateEvent)}>
-              <input name="id" defaultValue={eventDetails.id} ref={register} hidden />
+              <input name="id" defaultValue={id} ref={register} hidden />
               <label>Title</label>
-              <input name="title" defaultValue={eventDetails.title} ref={register} />
+              <input name="title" defaultValue={title} ref={register} />
               <label>Location</label>
-              <input name="location" defaultValue={eventDetails.location} ref={register} />
+              <input name="location" defaultValue={location} ref={register} />
 
               <div className="date">
                 <label>Start Time</label>
-                <input name="startDate" defaultValue={moment(eventDetails.startDate).toDate()} hidden ref={register} />
+                <input name="startDate" defaultValue={moment(startDate).toDate()} hidden ref={register} />
                 <DatePicker
-                  selected={moment(eventDetails.startDate).toDate()}
+                  selected={moment(startDate).toDate()}
                   onChange={date => setStartDate(date)}
                   showTimeSelect
                   timeFormat="hh:mm aa"
@@ -49,9 +49,9 @@ const UpdateEventTemplate = ({ data }) => {
                   dateFormat="MMMM d, yyyy hh:mm aa"
                 />
                 <label>End Time</label>
-                <input name="endDate" defaultValue={moment(eventDetails.endDate).toDate()} hidden ref={register} />
+                <input name="endDate" defaultValue={moment(endDate).toDate()} hidden ref={register} />
                 <DatePicker
-                  selected={moment(eventDetails.endDate).toDate()}
+                  selected={moment(endDate).toDate()}
                   onChange={date => setEndDate(date)}
                   showTimeSelect
                   timeFormat="hh:mm aa"
@@ -66,7 +66,7 @@ const UpdateEventTemplate = ({ data }) => {
                 id=""
                 cols="30"
                 rows="2"
-                defaultValue={eventDetails.description}
+                defaultValue={description}
                 ref={register}
               ></textarea>
               {errors.exampleRequired && <p>This field is required</p>}
@@ -95,14 +95,12 @@ export const query = graphql`
       filter: { fields: { slug: { eq: $slug } } }
     ) {
       nodes {
-        eventDetails {
-          title
-          startDate
-          location
-          endDate
-          description
-          id
-        }
+        title
+        startDate
+        location
+        endDate
+        description
+        id
         fields {
           slug
         }
