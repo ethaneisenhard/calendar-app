@@ -4,7 +4,6 @@ import { Link } from "gatsby"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import CreateEventForm from "../components/createEventForm"
-import LocalStorage from "../components/localStorage"
 
 const CreateEvent = () => (
   <Layout>
@@ -12,7 +11,6 @@ const CreateEvent = () => (
     <p>Create</p>
     <CreateEventForm/>
     <br></br>
-    <LocalStorage/>
     <Link to="/updateEvent/">Update Event</Link>
   </Layout>
 )
