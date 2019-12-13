@@ -16,12 +16,12 @@ const UpdateEventForm = () => {
     <div>
         <form id = "updateEvent"  onSubmit={handleSubmit(updateEvent)}>
           <label>Title</label>
-          <input name="title" defaultValue={eventObj.title} ref={register} />
+          <input name="title" defaultValue="" ref={register} />
           <label>Location</label>
           <input
             name="location"
             ref={register}
-            defaultValue={eventObj.location}
+            defaultValue=""
           />
           {errors.exampleRequired && <p>This field is required</p>}
           <input type="submit" />
