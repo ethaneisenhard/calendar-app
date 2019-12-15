@@ -21,6 +21,16 @@ export const setEvent = (store, data) => {
     console.log(error);
   });
 
+  axios.post('https://api.netlify.com/build_hooks/5df3d94ed05cf97757e63d15', {
+
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+
 }
 
 export const updateEvent = (store, data) => {

@@ -1,7 +1,7 @@
 const path = require(`path`)
 
 exports.onCreateNode = ({ node, actions }) => {
-  if (node.internal.type === `RestApiEthaneisenhardCalendarappdbEvents`) {
+  if (node.internal.type === `RestApiEvents`) {
     const title = `/${node.title
       .replace(/ /g, "-")
       .replace(/[,&]/g, "")
@@ -21,7 +21,7 @@ exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
   const result = await graphql(`
     query {
-      allRestApiEthaneisenhardCalendarappdbEvents {
+      allRestApiEvents {
         nodes {
           id
           location
@@ -43,7 +43,7 @@ exports.createPages = async ({ graphql, actions }) => {
     `./src/templates/updateEventTemplate.js`
   )
 
-  result.data.allRestApiEthaneisenhardCalendarappdbEvents.nodes.forEach(
+  result.data.allRestApiEvents.nodes.forEach(
     ({ fields }) => {
       createPage({
         path: fields.slug,

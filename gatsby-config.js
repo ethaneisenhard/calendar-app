@@ -32,9 +32,13 @@ module.exports = {
       resolve: 'rest',
       options: {
         endpoints: [
-          'https://my-json-server.typicode.com/ethaneisenhard/calendarappdb/events'
+          'http://localhost:3000/events'
         ],
       },
+    },
+    {
+      resolve: `gatsby-plugin-create-client-paths`,
+      options: { prefixes: [`/app/*`] },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline

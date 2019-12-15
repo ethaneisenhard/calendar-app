@@ -26,7 +26,7 @@ const UpdateEventTemplate = ({ data }) => {
   return (
     <Layout>
       <SEO title="Update Event Template" />
-      {data.allRestApiEthaneisenhardCalendarappdbEvents.nodes.map(
+      {data.allRestApiEvents.nodes.map(
         ({ id, title, location, startDate, endDate, description }) => (
           <div>
             <form id="createEventForm" onSubmit={handleSubmit(updateEvent)}>
@@ -91,7 +91,7 @@ export default UpdateEventTemplate
 
 export const query = graphql`
   query($slug: String!) {
-    allRestApiEthaneisenhardCalendarappdbEvents(
+    allRestApiEvents(
       filter: { fields: { slug: { eq: $slug } } }
     ) {
       nodes {
