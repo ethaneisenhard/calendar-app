@@ -21,16 +21,6 @@ export const setEvent = (store, data) => {
     console.log(error);
   });
 
-  axios.post('https://api.netlify.com/build_hooks/5df3d94ed05cf97757e63d15', {
-
-  })
-  .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-
 }
 
 export const updateEvent = (store, data) => {
@@ -56,10 +46,50 @@ export const updateEvent = (store, data) => {
 
 }
 
-export const getEvent = (data) => {
+export const rsvpEvent = (store, data) => {
   const eventData = data;
+  const parseData = JSON.parse(eventData);  
 
-  //acts like Get server request
-  // return localStorage.getItem('EventDataArray', eventData);
+  const rsvpArray = [parseData];
+  //remove duplicate ID from Object
+  const removeID = rsvpArray.map(({id, ...keepAttrs}) => keepAttrs)
+
+  axios.patch('http://localhost:3000/events/'+parseData.id, {
+    rsvp: removeID
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+
+  store.setState({ eventData });
+
 }
+
+// export const getEvents = (store) => {
+//   axios.get('http://localhost:3000/events/', {
+//   })
+//   .then(function (response) {
+//     console.log(response);
+//     const allEvents = response;
+//     store.setState({ allEvents });
+//   })
+//   .catch(function (error) {
+//     console.log(error);
+//   });
+// }
+
+export const getEvents = async (store, request = axios) => {
+  try {
+    const response = await request.get(
+      `http://localhost:3000/events/`
+    );
+    const allEvents = response.data;
+    store.setState({ allEvents });
+  } catch (error) {
+    console.log(error)
+  }
+};
 
