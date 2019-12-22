@@ -1,11 +1,13 @@
 import React, { useState, useEffect }  from 'react'
 import axios from "axios"
 
-const AllEvents = ()  => {
+const AllEvents = props => {
+
+  var community = props.community;
 
   const [eventData, getEventData] = useState({});
   const [url, setUrl] = useState(
-    'http://localhost:3000/events/',
+    'http://localhost:3000/calendar/'+community+'/',
   );
 
   const [isLoading, setIsLoading] = useState(false);

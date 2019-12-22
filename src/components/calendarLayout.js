@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react"
 import moment from "moment"
 import axios from "axios"
+import { Link } from "gatsby"
 import "../styles/calendarLayout.scss"
 
-const Calendar = () => {
+const Calendar = props => {
   const [currentDate, setCurrentDate] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState(new Date())
 
   const [eventData, getEventData] = useState({});
   const [url, setUrl] = useState(
-    'http://localhost:3000/events/',
+    'http://localhost:3000/calendar/'+props.community+'/',
   );
 
   const [isLoading, setIsLoading] = useState(false);
@@ -73,16 +74,6 @@ const Calendar = () => {
     let day = startDate
     let formattedDate = ""
 
- 
-    if(eventData !== undefined){
-      var startTimeArray = [];
-      for (let i=0; i<eventData.length; i++) {
-        var getStartDate = (eventData[i].startDate);
-        console.log(getStartDate);
-        startTimeArray.push(getStartDate);
-      }
-    } 
-
     
     while (day <= endDate) {
       for (let i = 0; i < 7; i++) {
@@ -91,14 +82,32 @@ const Calendar = () => {
         
         var currentDay = moment(day).toDate();
         
+        function getCompareDate(){
+          if(eventData !== undefined){
+            for (let i=0; i<eventData.length; i++) {
+              var startDate = (eventData[i].info.startDate);
+              var compareTest = moment(startDate).isSame(currentDay, 'day');
+              if(compareTest == true){
+                var title = (eventData[i].title)
+                startDate = moment(startDate).format("LT");
+                var endDate = moment((eventData[i].info.endDate)).format("LT");
+                var eventDetails = [title, startDate, endDate];
+                return eventDetails;
+              }
+            }
+          } 
+        }
 
-        for (let i=0; i<startTimeArray.length; i++) {
-          var compareStartDate = (startTimeArray[i]);
+        var eventCell = getCompareDate();
+        var LinkToEvent;
 
-          var compareTest = moment(compareStartDate).isSame(currentDay, 'day');
-          if(compareTest == true){
-            console.log(compareStartDate);
-          }
+        if (eventCell !== undefined) {
+          const title = eventCell[0];
+          const startTime = eventCell[1];
+          const endTime = eventCell[2]; 
+          LinkToEvent = <Link className = "linkToEvent" to = ''>{title}: {startTime} - {endTime}</Link>;
+        } else {
+          LinkToEvent = "";
         }
         
         days.push(
@@ -111,11 +120,14 @@ const Calendar = () => {
                 : ""
             }`}
             key={day}
-            onClick={() => onDateClick(moment.parseZone(cloneDay))}
+            // onClick={() => onDateClick(moment.parseZone(cloneDay))}
           >
             <span className="number">{formattedDate}</span>
             <span className="bg">{formattedDate}</span>
             <span className={moment(day).toDate()}>
+                {LinkToEvent}
+            </span>
+            <span>
 
             </span>
           </div>
@@ -138,10 +150,10 @@ const Calendar = () => {
   const prevMonth = () => {
     setCurrentDate(moment(currentDate).subtract(1, 'month'))
   }
-  const onDateClick = day => {
-    setSelectedDate(day)
-    alert(day);
-  }
+  // const onDateClick = day => {
+  //   setSelectedDate(day)
+  //   alert(day);
+  // }
 
   return (
     <section>

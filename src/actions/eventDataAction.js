@@ -4,59 +4,94 @@ export const setEvent = (store, data) => {
   const eventData = data;
   const parseData = JSON.parse(eventData);
 
-  store.setState({ eventData });
+  const community = parseData.community;
 
-  axios.post('http://localhost:3000/events', {
+  const url = "http://localhost:3000/calendar/"+community+"/addEvent"
+
+  const formData = {
     id: parseData.id,
     title: parseData.title,
     location: parseData.location,
     startDate: parseData.startDate, 
     endDate: parseData.endDate,
-    description: parseData.description,
-  })
+    description: parseData.description
+  }
+
+  const config = {
+    headers: {
+      'content-type': 'application/json'
+    }
+  }
+
+  axios.post(url, formData, config)
   .then(function (response) {
     console.log(response);
   })
   .catch(function (error) {
     console.log(error);
   });
+
+  store.setState({ eventData });
 
 }
 
 export const updateEvent = (store, data) => {
   const eventData = data;
-  const parseData = JSON.parse(eventData);
+  const parseData = JSON.parse(eventData);  
+  const community = parseData.community;
 
-  store.setState({ eventData });
+  const url = "http://localhost:3000/calendar/"+community+"/updateEvent"
 
-  axios.put('http://localhost:3000/events/'+parseData.id, {
+  const formData = {
     id: parseData.id,
     title: parseData.title,
     location: parseData.location,
     startDate: parseData.startDate, 
     endDate: parseData.endDate,
-    description: parseData.description,
-  })
+    description: parseData.description
+  }
+
+  const config = {
+    headers: {
+      'content-type': 'application/json'
+    }
+  }
+
+  axios.patch(url, formData, config)
   .then(function (response) {
     console.log(response);
   })
   .catch(function (error) {
     console.log(error);
   });
+
+  store.setState({ eventData });
 
 }
 
 export const rsvpEvent = (store, data) => {
   const eventData = data;
   const parseData = JSON.parse(eventData);  
+  const community = parseData.community;
 
-  const rsvpArray = [parseData];
-  //remove duplicate ID from Object
-  const removeID = rsvpArray.map(({id, ...keepAttrs}) => keepAttrs)
+  const url = "http://localhost:3000/calendar/"+community+"/rsvpEvent"
 
-  axios.patch('http://localhost:3000/events/'+parseData.id, {
-    rsvp: removeID
-  })
+  const formData = {
+    id: parseData.id,
+    title: parseData.title,
+    name: parseData.name,
+    email: parseData.email,
+    guests: parseData.guests, 
+    rsvp: parseData.rsvp
+  }
+
+  const config = {
+    headers: {
+      'content-type': 'application/json'
+    }
+  }
+
+  axios.patch(url, formData, config)
   .then(function (response) {
     console.log(response);
   })
@@ -67,29 +102,4 @@ export const rsvpEvent = (store, data) => {
   store.setState({ eventData });
 
 }
-
-// export const getEvents = (store) => {
-//   axios.get('http://localhost:3000/events/', {
-//   })
-//   .then(function (response) {
-//     console.log(response);
-//     const allEvents = response;
-//     store.setState({ allEvents });
-//   })
-//   .catch(function (error) {
-//     console.log(error);
-//   });
-// }
-
-export const getEvents = async (store, request = axios) => {
-  try {
-    const response = await request.get(
-      `http://localhost:3000/events/`
-    );
-    const allEvents = response.data;
-    store.setState({ allEvents });
-  } catch (error) {
-    console.log(error)
-  }
-};
 

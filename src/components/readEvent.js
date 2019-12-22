@@ -15,19 +15,25 @@ const ReadEvent = props => {
     globalActions.rsvpEvent(stringData)
     console.log("rsvpEvent")
   }
-
+ 
   const [eventData, getEventData] = useState({})
   const [url, setUrl] = useState(
-    "http://localhost:3000/events/" + props.eventID + ""
+    "http://localhost:3000/calendar/" + props.community + "/" + "event/" + props.eventID + ""
   )
 
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsError(false)
       setIsLoading(true)
-      const result = await axios.get(url)
-      getEventData(result.data)
+      try{
+        const result = await axios.get(url)
+        getEventData(result.data)
+      } catch (error) {
+        setIsError(true)
+      }
       setIsLoading(false)
     }
     fetchData()
@@ -35,22 +41,43 @@ const ReadEvent = props => {
 
   return (
     <div>
+      {isError && <div>Something went wrong ...</div>}
       {isLoading ? (
         <div>Loading ...</div>
       ) : (
         <div>
+          {/* <pre>{JSON.stringify(eventData[0], null, 4)}</pre> */}
           <ul>
-            <li>{eventData.id}</li>
-            <li>{eventData.title}</li>
-            <li>{eventData.location}</li>
-            <li>{eventData.startDate}</li>
-            <li>{eventData.endDate}</li>
-            <li>{eventData.description}</li>
+            <li>{JSON.stringify(eventData[0].id)}</li>
+            <li>{JSON.stringify(eventData[0].title)}</li>
+            <li>{JSON.stringify(eventData[0].info.location)}</li>
+            <li>{JSON.stringify(eventData[0].info.startDate)}</li>
+            <li>{JSON.stringify(eventData[0].info.endDate)}</li>
+            <li>{JSON.stringify(eventData[0].info.description)}</li>
+            <li>{JSON.stringify(eventData[0].info.rsvp)}</li>
           </ul>
           <form id="createEventForm" onSubmit={handleSubmit(rsvpEvent)}>
             <input
               name="id"
-              defaultValue={eventData.id}
+              defaultValue={props.eventID}
+              ref={register}
+              hidden
+            />
+            <input
+              name="title"
+              defaultValue={eventData[0].title}
+              ref={register}
+              hidden
+            />
+            <input
+              name="community"
+              defaultValue={props.community}
+              ref={register}
+              hidden
+            />
+            <input
+              name="rsvp"
+              defaultValue={JSON.stringify(eventData[0].info.rsvp)}
               ref={register}
               hidden
             />

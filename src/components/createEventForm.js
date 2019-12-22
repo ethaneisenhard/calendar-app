@@ -7,7 +7,7 @@ import DatePicker from "react-datepicker"
 import "../styles/createEvent.scss"
 import "react-datepicker/dist/react-datepicker.css"
 
-const CreateEventForm = () => {
+const CreateEventForm = props => {
   const { register, handleSubmit, setValue, errors } = useForm()
   const [globalState, globalActions] = useGlobal()
   const [startDate, setStartDate] = useState(new Date());
@@ -25,6 +25,7 @@ const CreateEventForm = () => {
     <div>
       <form id="createEventForm" onSubmit={handleSubmit(createEvent)}>
         <input name="id" defaultValue={id} ref={register} hidden />
+        <input name="community" defaultValue={props.community} ref={register} hidden />
         <label>Title</label>
         <input name="title" defaultValue="" ref={register} />
         <label>Location</label>
