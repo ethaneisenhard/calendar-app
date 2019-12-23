@@ -29,7 +29,13 @@ const ReadEvent = props => {
       setIsError(false)
       setIsLoading(true)
       try{
-        const result = await axios.get(url)
+        const result = await axios.get(url, {
+          // Axios looks for the `auth` option, and, if it is set, formats a
+          // basic auth header for you automatically.
+          auth: {
+            users: { 'admin': 'supersecret' }
+          }
+        });
         getEventData(result.data)
       } catch (error) {
         setIsError(true)
@@ -50,12 +56,13 @@ const ReadEvent = props => {
           <ul>
             <li>{JSON.stringify(eventData[0].id)}</li>
             <li>{JSON.stringify(eventData[0].title)}</li>
-            <li>{JSON.stringify(eventData[0].info.location)}</li>
+            <li>{JSON.stringify(eventData[0].info.eventLocation)}</li>
             <li>{JSON.stringify(eventData[0].info.startDate)}</li>
             <li>{JSON.stringify(eventData[0].info.endDate)}</li>
             <li>{JSON.stringify(eventData[0].info.description)}</li>
             <li>{JSON.stringify(eventData[0].info.rsvp)}</li>
           </ul>
+          {/* all forms must be required */}
           <form id="createEventForm" onSubmit={handleSubmit(rsvpEvent)}>
             <input
               name="id"
@@ -81,8 +88,8 @@ const ReadEvent = props => {
               ref={register}
               hidden
             />
-            <label>Name</label>
-            <input name="name" defaultValue="" ref={register} />
+            <label>fullName</label>
+            <input name="fullName" defaultValue="" ref={register} />
             <label>Email</label>
             <input name="email" defaultValue="" ref={register} />
             <label>Amount of Guests</label>

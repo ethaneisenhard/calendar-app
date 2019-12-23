@@ -24,7 +24,7 @@
 //       allRestApiEvents {
 //         nodes {
 //           id
-//           location
+//           eventLocation
 //           startDate
 //           title
 //           endDate

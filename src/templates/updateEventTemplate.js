@@ -27,14 +27,14 @@
 //     <Layout>
 //       <SEO title="Update Event Template" />
 //       {data.allRestApiEvents.nodes.map(
-//         ({ id, title, location, startDate, endDate, description }) => (
+//         ({ id, title, eventLocation, startDate, endDate, description }) => (
 //           <div>
 //             <form id="createEventForm" onSubmit={handleSubmit(updateEvent)}>
 //               <input name="id" defaultValue={id} ref={register} hidden />
 //               <label>Title</label>
 //               <input name="title" defaultValue={title} ref={register} />
-//               <label>Location</label>
-//               <input name="location" defaultValue={location} ref={register} />
+//               <label>eventLocation</label>
+//               <input name="eventLocation" defaultValue={eventLocation} ref={register} />
 
 //               <div className="date">
 //                 <label>Start Time</label>
@@ -97,7 +97,7 @@
 //       nodes {
 //         title
 //         startDate
-//         location
+//         eventLocation
 //         endDate
 //         description
 //         id

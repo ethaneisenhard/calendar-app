@@ -28,8 +28,8 @@ const CreateEventForm = props => {
         <input name="community" defaultValue={props.community} ref={register} hidden />
         <label>Title</label>
         <input name="title" defaultValue="" ref={register} />
-        <label>Location</label>
-        <input name="location" defaultValue="" ref={register} />
+        <label>eventLocation</label>
+        <input name="eventLocation" defaultValue="" ref={register} />
         
         <div className = "date">
           <label>Start Time</label>

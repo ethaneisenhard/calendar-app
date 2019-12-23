@@ -11,7 +11,7 @@ export const setEvent = (store, data) => {
   const formData = {
     id: parseData.id,
     title: parseData.title,
-    location: parseData.location,
+    eventLocation: parseData.eventLocation,
     startDate: parseData.startDate, 
     endDate: parseData.endDate,
     description: parseData.description
@@ -45,7 +45,7 @@ export const updateEvent = (store, data) => {
   const formData = {
     id: parseData.id,
     title: parseData.title,
-    location: parseData.location,
+    eventLocation: parseData.eventLocation,
     startDate: parseData.startDate, 
     endDate: parseData.endDate,
     description: parseData.description
@@ -79,7 +79,7 @@ export const rsvpEvent = (store, data) => {
   const formData = {
     id: parseData.id,
     title: parseData.title,
-    name: parseData.name,
+    fullName: parseData.fullName,
     email: parseData.email,
     guests: parseData.guests, 
     rsvp: parseData.rsvp
@@ -92,6 +92,25 @@ export const rsvpEvent = (store, data) => {
   }
 
   axios.patch(url, formData, config)
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+
+  store.setState({ eventData });
+
+}
+
+export const deleteEvent = (store, data) => {
+  const eventData = data;
+  const parseData = JSON.parse(eventData);  
+  const community = parseData.community;
+
+  const url = "http://localhost:3000/calendar/"+community+"/deleteEvent"
+
+  axios.delete(url, { data: { id: parseData.id } })
   .then(function (response) {
     console.log(response);
   })

@@ -3,9 +3,10 @@ import { Router } from "@reach/router"
 import Layout from "../components/layout"
 import UpdateEventForm from "../components/updateEventForm"
 import CreateEventForm from "../components/createEventForm"
-import ReadEvent from "../components/readEvent"
+import RSVPEvent from "../components/rsvpEvent"
 import Calendar from "../components/calendarLayout"
 import AllEvents from "../components/allEvents"
+import DeleteEvent from "../components/deleteEvent"
 import Test from "../components/test"
 
 const App = () => {
@@ -14,7 +15,8 @@ const App = () => {
       <Router>
         <AllEvents path = "/app/calendar/:community/allEvents/"/>
         <Calendar path="/app/calendar/:community"/>
-        <ReadEvent path="/app/calendar/:community/rsvpEvent/:eventID"/>
+        <RSVPEvent path="/app/calendar/:community/rsvpEvent/:eventID"/>
+        <DeleteEvent path="/app/calendar/:community/deleteEvent/:eventID"/>
         <UpdateEventForm path="/app/calendar/:community/updateEvent/:eventID" />
         <CreateEventForm path="/app/calendar/:community/createEvent"/>
         <Test path="/app/test" />

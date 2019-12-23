@@ -105,7 +105,7 @@ const Calendar = props => {
           const title = eventCell[0];
           const startTime = eventCell[1];
           const endTime = eventCell[2]; 
-          LinkToEvent = <Link className = "linkToEvent" to = ''>{title}: {startTime} - {endTime}</Link>;
+          LinkToEvent = <Link className = "linkToEvent" to = "">{title}: {startTime} - {endTime}</Link>;
         } else {
           LinkToEvent = "";
         }

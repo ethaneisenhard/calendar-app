@@ -4,16 +4,18 @@ import useGlobal from "../store/eventData"
 import DatePicker from "react-datepicker"
 import moment from "moment"
 import axios from "axios"
+import DateTimePicker from 'react-datetime-picker'
 
 import "../styles/createEvent.scss"
 import "react-datepicker/dist/react-datepicker.css"
 
 const UpdateEvent = props => {
+
   const { register, handleSubmit, setValue, errors } = useForm()
   const [globalState, globalActions] = useGlobal()
 
-  const [startDate, setStartDate] = useState(new Date())
-  const [endDate, setEndDate] = useState(new Date())
+  const [startDate, setStartDate] = useState(null)
+  const [endDate, setEndDate] = useState(null)
 
   const updateEvent = data => {
     const stringData = JSON.stringify(data)
@@ -42,9 +44,11 @@ const UpdateEvent = props => {
       setIsLoading(false)
     }
     fetchData()
+    
   }, [url])
 
   return (
+   
     <div>
       {isLoading ? (
         <div>Loading ...</div>
@@ -55,40 +59,42 @@ const UpdateEvent = props => {
         <input name="community" defaultValue={props.community} ref={register} hidden />
         <label>Title</label>
         <input name="title" defaultValue={eventData[0].title} ref={register} />
-        <label>Location</label>
-        <input name="location" defaultValue={eventData[0].info.location} ref={register} />
+        <label>eventLocation</label>
+        <input name="eventLocation" defaultValue={eventData[0].info.eventLocation} ref={register} />
         <div className="date">
           <label>Start Time</label>
           <input
             name="startDate"
-            defaultValue={moment(eventData[0].info.startDate).toDate()}
+            defaultValue={eventData[0].info.startDate}
             hidden
             ref={register}
           />
           <DatePicker
-            selected={moment(eventData[0].info.startDate).toDate()}
-            onChange={date => setStartDate(date)}
+            selected = {startDate}
+            onChange={date  => setStartDate(date)}
             showTimeSelect
             timeFormat="hh:mm aa"
             timeIntervals={30}
             timeCaption="time"
-            dateFormat="MMMM d, yyyy hh:mm aa"
+            dateFormat="MM/dd/yyyy h:mm aa"
+            placeholderText = {eventData[0].info.startDate}
           />
           <label>End Time</label>
           <input
             name="endDate"
-            defaultValue={moment(eventData[0].info.endDate).toDate()}
+            defaultValue={eventData[0].info.endDate}
             hidden
             ref={register}
           />
           <DatePicker
-            selected={moment(eventData[0].info.endDate).toDate()}
+            selected={endDate}
             onChange={date => setEndDate(date)}
             showTimeSelect
             timeFormat="hh:mm aa"
             timeIntervals={30}
             timeCaption="time"
-            dateFormat="MMMM d, yyyy hh:mm aa"
+            dateFormat="MM/dd/yyyy h:mm aa"
+            placeholderText={eventData[0].info.endDate}
           />
         </div>
         <label htmlFor="">Descriptions</label>
@@ -104,8 +110,8 @@ const UpdateEvent = props => {
         <input
           type="submit"
           onClick={() => {
-            setValue("startDate", startDate)
-            setValue("endDate", endDate)
+            setValue("startDate", startDate == null ? eventData[0].info.startDate: startDate)
+            setValue("endDate", endDate == null ? eventData[0].info.endDate: endDate)
           }}
         />
       </form>
