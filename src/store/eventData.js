@@ -4,6 +4,7 @@ import useGlobalHook from "use-global-hook";
 import * as actions from "../actions/eventDataAction";
 
 const initialState = {
+  status: "INITIAL",
   eventData: []
 };
 

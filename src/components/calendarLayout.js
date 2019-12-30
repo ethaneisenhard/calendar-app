@@ -82,30 +82,55 @@ const Calendar = props => {
         
         var currentDay = moment(day).toDate();
         
-        function getCompareDate(){
+        var eventDetails = undefined
+
           if(eventData !== undefined){
+            var eventDataCounter = 0;
+
             for (let i=0; i<eventData.length; i++) {
-              var startDate = (eventData[i].info.startDate);
-              var compareTest = moment(startDate).isSame(currentDay, 'day');
+              var startDateDay = (eventData[i].info.startDate);
+              var compareTest = moment(startDateDay).isSame(currentDay, 'day'); 
               if(compareTest == true){
+                eventDataCounter = eventDataCounter+1;
+
+                var eventID = eventData[i].id
                 var title = (eventData[i].title)
-                startDate = moment(startDate).format("LT");
-                var endDate = moment((eventData[i].info.endDate)).format("LT");
-                var eventDetails = [title, startDate, endDate];
-                return eventDetails;
+                var startTime = moment(startDate).format("LT");
+                var endTime = moment((eventData[i].info.endDate)).format("LT");
+                eventDetails = [eventID, title, startTime, endTime];
+
+                if(eventDataCounter === 1){
+                  var eventDetailArray = [eventDetails]
+                }
+
+                if(eventDataCounter>=2){
+                  eventDetailArray.push(eventDetails)
+                }
+                
               }
             }
           } 
-        }
 
-        var eventCell = getCompareDate();
         var LinkToEvent;
+        var LinkToEventArray = [];
+        
+        var eventDetailCounter = 0;
 
-        if (eventCell !== undefined) {
-          const title = eventCell[0];
-          const startTime = eventCell[1];
-          const endTime = eventCell[2]; 
-          LinkToEvent = <Link className = "linkToEvent" to = "">{title}: {startTime} - {endTime}</Link>;
+        if (eventDetails !== undefined) {
+          for (let i=0; i<eventDetailArray.length; i++) {
+
+            eventDetailCounter = eventDetailCounter + 1;
+
+            const id = eventDetailArray[i][0];
+            const title = eventDetailArray[i][1];
+            const startTime = eventDetailArray[i][2];
+            const endTime = eventDetailArray[i][3];
+
+            LinkToEvent = <Link key = {eventDetailCounter} className = "linkToEvent" to = {window.location.pathname + `/rsvpEvent/${id}`}>{title}: {startTime} - {endTime}</Link>;
+
+            LinkToEventArray.push(LinkToEvent)
+          }
+          
         } else {
           LinkToEvent = "";
         }
@@ -124,8 +149,8 @@ const Calendar = props => {
           >
             <span className="number">{formattedDate}</span>
             <span className="bg">{formattedDate}</span>
-            <span className={moment(day).toDate()}>
-                {LinkToEvent}
+            <span className="eventLinkContainer">
+                {eventDetailCounter>=2 ? LinkToEventArray : LinkToEvent}
             </span>
             <span>
 

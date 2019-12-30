@@ -31,7 +31,7 @@ export const setEvent = (store, data) => {
     console.log(error);
   });
 
-  store.setState({ eventData });
+  // store.setState({ eventData });
 
 }
 
@@ -65,7 +65,7 @@ export const updateEvent = (store, data) => {
     console.log(error);
   });
 
-  store.setState({ eventData });
+  // store.setState({ eventData });
 
 }
 
@@ -99,7 +99,7 @@ export const rsvpEvent = (store, data) => {
     console.log(error);
   });
 
-  store.setState({ eventData });
+  // store.setState({ eventData });
 
 }
 
@@ -118,7 +118,26 @@ export const deleteEvent = (store, data) => {
     console.log(error);
   });
 
-  store.setState({ eventData });
+  // store.setState({ eventData });
 
 }
+
+export const getEventByTitle = async (store, community, eventID, request = axios) => {
+  const status = "LOADING";
+  store.setState({ status });
+  try {
+    const response = await request.get(
+      "http://localhost:3000/calendar/" + community + "/" + "event/" + eventID + ""
+    );
+    const eventData = response.data;
+    const iseventDataEmpty = eventData.length == 0;
+    const status = iseventDataEmpty ? "EMPTY" : "SUCCESS";
+    store.setState({ eventData, status });
+  } catch (error) {
+    const isError404 = error.response && error.response.status === 404;
+    const status = isError404 ? "NOT_FOUND" : "ERROR";
+    store.setState({ status });
+  }
+};
+
 

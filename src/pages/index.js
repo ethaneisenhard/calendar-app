@@ -8,11 +8,9 @@ import SEO from "../components/seo"
 const IndexPage = () => (
   <Layout>
     <SEO title="Home" />
-    <Link to="/calendar/">Calendar</Link>
+    <Link to="/app/dashboard/calendar/Azure">Sign In</Link>
     <br></br>
-    <Link to="/createEvent/">Create Event</Link>
     <br></br>
-    <Link to="/updateEvent/">Update Event</Link>
   </Layout>
 )
 

@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "Calendar App | Toll Brothers",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "Calendar App",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Ethan Eisenhard <eeisenhard@tollbrothers.com>",
   "dependencies": {
     "@reach/router": "^1.2.1",
     "axios": "^0.19.0",

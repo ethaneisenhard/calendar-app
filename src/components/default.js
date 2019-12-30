@@ -4,22 +4,21 @@ import useGlobal from "../store/eventData"
 import axios from "axios"
 
 import "../styles/createEvent.scss"
-import "react-datepicker/dist/react-datepicker.css"
 
-const ReadEvent = props => {
-  const { register, handleSubmit, setValue, errors } = useForm()
+const Default = props => {
+  const { register, handleSubmit, errors } = useForm()
   const [globalState, globalActions] = useGlobal()
 
-  const rsvpEvent = data => {
+  const defaultTemplate = data => {
     const stringData = JSON.stringify(data)
-    globalActions.rsvpEvent(stringData)
-    console.log("rsvpEvent")
+    globalActions.defaultTemplate(stringData)
+    console.log("deleteEvent")
   }
  
   const [eventData, getEventData] = useState({})
   const [url, setUrl] = useState(
-    "http://localhost:3000/calendar/" + props.community + "/" + "event/" + props.eventID + ""
-  )
+    'http://localhost:3000/calendar/'+community+'/',
+  );
 
   const [isLoading, setIsLoading] = useState(true)
   const [isError, setIsError] = useState(false);
@@ -29,13 +28,7 @@ const ReadEvent = props => {
       setIsError(false)
       setIsLoading(true)
       try{
-        const result = await axios.get(url, {
-          // Axios looks for the `auth` option, and, if it is set, formats a
-          // basic auth header for you automatically.
-          auth: {
-            users: { 'admin': 'supersecret' }
-          }
-        });
+        const result = await axios.get(url)
         getEventData(result.data)
       } catch (error) {
         setIsError(true)
@@ -63,16 +56,10 @@ const ReadEvent = props => {
             <li>{JSON.stringify(eventData[0].info.rsvp)}</li>
           </ul>
           {/* all forms must be required */}
-          <form id="createEventForm" onSubmit={handleSubmit(rsvpEvent)}>
+          <form id="createEventForm" onSubmit={handleSubmit(defaultTemplate)}>
             <input
               name="id"
               defaultValue={props.eventID}
-              ref={register}
-              hidden
-            />
-            <input
-              name="title"
-              defaultValue={eventData[0].title}
               ref={register}
               hidden
             />
@@ -82,20 +69,9 @@ const ReadEvent = props => {
               ref={register}
               hidden
             />
-            <input
-              name="rsvp"
-              defaultValue={JSON.stringify(eventData[0].info.rsvp)}
-              ref={register}
-              hidden
-            />
-            <label>fullName</label>
-            <input name="fullName" defaultValue="" ref={register} />
-            <label>Email</label>
-            <input name="email" defaultValue="" ref={register} />
-            <label>Amount of Guests</label>
-            <input name="guests" defaultValue="" ref={register} />
+            <p>Default</p>
             {errors.exampleRequired && <p>This field is required</p>}
-            <input type="submit" />
+            <input type="submit"/>
           </form>
         </div>
       )}
@@ -105,4 +81,4 @@ const ReadEvent = props => {
   )
 }
 
-export default ReadEvent
+export default Default
