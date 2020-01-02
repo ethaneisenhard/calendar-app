@@ -1,70 +1,52 @@
-import React, { useState, useEffect } from "react"
-import { navigate } from "gatsby"
+import React from "react"
+import { navigate, Link } from "gatsby"
 import useForm from "react-hook-form"
 import useGlobal from "../store/eventData"
-import axios from "axios"
 
 import "../styles/createEvent.scss"
 
 const EventSearch = props => {
   const { register, handleSubmit, errors } = useForm()
   const [globalState, globalActions] = useGlobal()
+  const { status, eventData } = globalState
 
   const updateEventSearchForm = data => {
     const stringData = JSON.stringify(data)
 
-    var shownVal = document.getElementById("data-choice")
-    
-    var value2send = document.querySelector("#data option[value='" + shownVal.value + "']").getAttribute("data-value")
+    var shownVal = document.getElementById("event-search")
 
+    var checkNullSearch = document.querySelector("#eventSearch option[value='" + shownVal.value + "']")
+
+    if(checkNullSearch !== null){
+      var eventID = document.querySelector("#eventSearch option[value='" + shownVal.value + "']").getAttribute("data-value")
+    }
+    
     navigate(
-      "app/dashboard/calendar/" + props.community + "/updateEvent/" + value2send + "/"
+      "app/dashboard/calendar/" + props.community + "/updateEvent/" + eventID + "/"
     )
 
-    globalActions.getEventByTitle(props.community, value2send)
+    globalActions.getEventByTitle(props.community, eventID)
     console.log("searchForEvent")
   }
 
-  const [eventData, getEventData] = useState()
-  const [url, setUrl] = useState(
-    "http://localhost:3000/calendar/" + props.community + "/"
-  )
-
-  const [isLoading, setIsLoading] = useState(true)
-  const [isError, setIsError] = useState(false)
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsError(false)
-      setIsLoading(true)
-      try {
-        const result = await axios.get(url)
-        getEventData(result.data)
-      } catch (error) {
-        setIsError(true)
-      }
-      setIsLoading(false)
-    }
-    fetchData()
-  }, [url])
+  if(eventData.length === 0 && status === "INITIAL"){
+    globalActions.getAllEventsByCommunity(props.community)
+  }
 
   return (
-    <div>
-      {isError && <div>Something went wrong ...</div>}
-      {isLoading ? (
-        <div>Loading ...</div>
-      ) : (
+    <section>
+      {status === "LOADING" && <h4>Loading...</h4>}
+      {status === "EMPTY" && (
+        <div>
+            <h4>Search Result Not Found</h4>
+            {<Link to = {`/app/dashboard/calendar/${props.community}/updateEvent`}>Search Again</Link>}
+        </div>
+      )}
+      {status === "NOT_FOUND" && <h4>404 - Page Not Found</h4>}
+      {status === "ERROR" && <h4>Connection Error</h4>}
+      {status === "SUCCESS" && (
         <div>
           <h1>Find and Update an Event</h1>
-          {/* <pre>{JSON.stringify(eventData, null, 4)}</pre> */}
-          {/* <pre>
-                {eventData.map((item, key) => (
-                  <ul key={key} >
-                      <li>{item.title}</li>
-                  </ul>
-                ))}
-            </pre> */}
-          {/* all forms must be required */}
           <form
             id="searchEventForm"
             onSubmit={handleSubmit(updateEventSearchForm)}
@@ -81,27 +63,27 @@ const EventSearch = props => {
               ref={register}
               hidden
             />
-            <label htmlFor="data-choice">Search for an Event:</label>
+            <label htmlFor="event-search">Search for an Event:</label>
             <input
-              list="data"
-              id="data-choice"
-              name="dataChoice"
-              ref={register}
+              list="eventSearch"
+              id="event-search"
+              name="eventSearchList"
+              ref={register({ required: true })}
             />
-            <datalist id="data">
+            <datalist id="eventSearch">
               {eventData.map((item, key) => (
                 <option key={key} data-value={item.id} value={item.title}>
                   {item.title}
                 </option>
               ))}
             </datalist>
-            {errors.exampleRequired && <p>This field is required</p>}
+            {errors.eventSearchList && <p>Please type into the search field</p>}
             <input type="submit" />
           </form>
         </div>
       )}
       {props.children}
-    </div>
+    </section>
   )
 }
 

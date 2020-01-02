@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { navigate } from "gatsby"
 import useForm from "react-hook-form"
 import useGlobal from "../store/eventData"
-import axios from "axios"
 
 import "../styles/createEvent.scss"
 
 const DeleteEvent = props => {
-  const { register, handleSubmit, setValue, errors } = useForm()
+  const { register, handleSubmit, errors } = useForm()
   const [globalState, globalActions] = useGlobal()
   const { status, eventData } = globalState
 
@@ -25,9 +24,16 @@ const DeleteEvent = props => {
     console.log("deleteEvent")
   }
 
+  if(eventData.length === 0 && status === "INITIAL"){
+    globalActions.getEventByTitle(props.community, props.eventID)
+  }
+
   return (
     <section>
       {status === "LOADING" && <h4>Loading...</h4>}
+      {status === "EMPTY" && <h4>This event has not been created</h4>}
+      {status === "NOT_FOUND" && <h4>404 - Page Not Found</h4>}
+      {status === "ERROR" && <h4>Connection Error</h4>}
       {status === "SUCCESS" && (
         <div>
           <ul>
@@ -58,10 +64,6 @@ const DeleteEvent = props => {
           </form>
         </div>
       )}
-      {status === "EMPTY" && <h4>This event has not been created</h4>}
-      {status === "NOT_FOUND" && <h4>404 - Page Not Found</h4>}
-      {status === "ERROR" && <h4>Connection Error</h4>}
-      {/* <pre>{JSON.stringify(eventData[0], null, 4)}</pre> */}
     </section>
   )
 }

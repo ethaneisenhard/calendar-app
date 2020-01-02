@@ -15,12 +15,8 @@ const CreateEventForm = props => {
 
   const createEvent = data => {
     const stringData = JSON.stringify(data)
-
-    
     globalActions.setEvent(stringData)
-
     alert("Event Created")
-
     console.log("createEvent")
   }
 
@@ -74,9 +70,6 @@ const CreateEventForm = props => {
               setValue('endDate', endDate)
         }}/>
       </form>
-
-      <h3>Data Response</h3>
-      <pre>{globalState.eventData}</pre>
     </div>
   )
 }

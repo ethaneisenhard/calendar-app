@@ -1,30 +1,19 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import moment from "moment"
-import axios from "axios"
 import { Link } from "gatsby"
+import useGlobal from "../store/eventData"
+
 import "../styles/calendarLayout.scss"
 
 const Calendar = props => {
   const [currentDate, setCurrentDate] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState(new Date())
+  const [globalState, globalActions] = useGlobal()
+  const { status, eventData } = globalState
 
-  const [eventData, getEventData] = useState({});
-  const [url, setUrl] = useState(
-    'http://localhost:3000/calendar/'+props.community+'/',
-  );
-
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      const result = await axios.get(url);
-      getEventData(result.data);
-      setIsLoading(false);
-    };
-    fetchData();
-    
-  }, [url]);
+  if(eventData.length === 0 && status === "INITIAL"){
+    globalActions.getAllEventsByCommunity(props.community)
+  }
 
   const header = () => {
     const dateFormat = "MMMM YYYY"
@@ -118,7 +107,6 @@ const Calendar = props => {
 
         if (eventDetails !== undefined) {
           for (let i=0; i<eventDetailArray.length; i++) {
-
             eventDetailCounter = eventDetailCounter + 1;
 
             const id = eventDetailArray[i][0];
@@ -126,7 +114,7 @@ const Calendar = props => {
             const startTime = eventDetailArray[i][2];
             const endTime = eventDetailArray[i][3];
 
-            LinkToEvent = <Link key = {eventDetailCounter} className = "linkToEvent" to = {window.location.pathname + `/rsvpEvent/${id}`}>{title}: {startTime} - {endTime}</Link>;
+            LinkToEvent = <Link key = {eventDetailCounter} className = "linkToEvent" to = {window.location.pathname + `/rsvpEvent/${id}/`}>{title}: {startTime} - {endTime}</Link>;
 
             LinkToEventArray.push(LinkToEvent)
           }
@@ -182,9 +170,11 @@ const Calendar = props => {
 
   return (
     <section>
-      {isLoading ? (
-          <div>Loading ...</div>
-      ) : (
+      {status === "LOADING" && <h4>Loading...</h4>}
+      {status === "EMPTY" && <h4>This Calendar has not been created</h4>}
+      {status === "NOT_FOUND" && <h4>404 - Page Not Found</h4>}
+      {status === "ERROR" && <h4>Connection Error</h4>}
+      {status === "SUCCESS" && (
       <div className="calendar">
         <div>{header()}</div>
         <div>{days()}</div>

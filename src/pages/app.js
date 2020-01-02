@@ -6,15 +6,14 @@ import Calendar from "../components/calendarLayout"
 import AllEvents from "../components/allEvents"
 import RSVPEventForm from "../components/rsvpEventForm"
 
+import Dashboard from '../components/dashboard'
+import CreateEventForm from "../components/createEventForm"
 import UpdateEventSearch from "../components/updateEventSearch"
 import UpdateEventForm from "../components/updateEventForm"
-import CreateEventForm from "../components/createEventForm"
-
 import DeleteEventSearch from "../components/deleteEventSearch"
 import DeleteEventForm from "../components/deleteEventForm"
 
 import Test from "../components/test"
-import Dashboard from '../components/dashboard'
 
 const App = () => {
   return (

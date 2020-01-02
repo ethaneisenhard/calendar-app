@@ -19,8 +19,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-starter-default`,
-        short_name: `starter`,
+        name: `calendar-app`,
+        short_name: `calendar-app`,
         start_url: `/`,
         background_color: `#663399`,
         theme_color: `#663399`,
@@ -28,14 +28,6 @@ module.exports = {
         icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
       },
     },
-    // {
-    //   resolve: 'rest',
-    //   options: {
-    //     endpoints: [
-    //       'http://localhost:3000/events'
-    //     ],
-    //   },
-    // },
     {
       resolve: `gatsby-plugin-create-client-paths`,
       options: { prefixes: [`/app/*`] },

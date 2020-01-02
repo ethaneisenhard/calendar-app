@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { navigate } from "gatsby"
 import useForm from "react-hook-form"
 import useGlobal from "../store/eventData"
@@ -20,9 +20,8 @@ const UpdateEvent = props => {
   const updateEvent = data => {
     const stringData = JSON.stringify(data)
     globalActions.updateEvent(stringData)
-
     alert("Success! Event has been updated")
-    navigate("app/calendar/" + props.community + "/updateEvent/")
+    navigate("app/dashboard/calendar/" + props.community + "/updateEvent/")
     console.log("updateEvent")
   }
 
@@ -33,6 +32,9 @@ const UpdateEvent = props => {
   return (
     <section>
       {status === "LOADING" && <h4>Loading...</h4>}
+      {status === "EMPTY" && <h4>This event has not been created</h4>}
+      {status === "NOT_FOUND" && <h4>404 - Page Not Found</h4>}
+      {status === "ERROR" && <h4>Connection Error</h4>}
       {status === "SUCCESS" && (
           <div>
             <form id="updateEventForm" onSubmit={handleSubmit(updateEvent)}>
@@ -111,23 +113,17 @@ const UpdateEvent = props => {
                 onClick={() => {
                   setValue(
                     "startDate",
-                    startDate == null ? eventData[0].info.startDate : startDate
+                    startDate === null ? eventData[0].info.startDate : startDate
                   )
                   setValue(
                     "endDate",
-                    endDate == null ? eventData[0].info.endDate : endDate
+                    endDate === null ? eventData[0].info.endDate : endDate
                   )
                 }}
               />
             </form>
           </div>
       )}
-      {status === "EMPTY" && <h4>This event has not been created</h4>}
-      {status === "NOT_FOUND" && <h4>404 - Page Not Found</h4>}
-      {status === "ERROR" && <h4>Connection Error</h4>}
-
-      {/* <h3>Data Response</h3>
-      <pre>{globalState.eventData}</pre> */}
     </section>
   )
 }

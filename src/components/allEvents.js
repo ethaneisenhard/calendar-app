@@ -1,40 +1,27 @@
-import React, { useState, useEffect }  from 'react'
-import axios from "axios"
+import React from "react"
+import useGlobal from "../store/eventData"
 
 const AllEvents = props => {
+  const [globalState, globalActions] = useGlobal()
+  const { status, eventData } = globalState
 
-  var community = props.community;
-
-  const [eventData, getEventData] = useState({});
-  const [url, setUrl] = useState(
-    'http://localhost:3000/calendar/'+community+'/',
-  );
-
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      const result = await axios.get(url);
-      getEventData(result.data);
-      setIsLoading(false);
-    };
-    fetchData();
-    
-  }, [url]);
-    
-
-    return(
+  if(eventData.length === 0 && status === "INITIAL"){
+    globalActions.getAllEventsByCommunity(props.community)
+  }
+  
+  return (
+    <section>
+      {status === "LOADING" && <h4>Loading...</h4>}
+      {status === "EMPTY" && <h4>This event has not been created</h4>}
+      {status === "NOT_FOUND" && <h4>404 - Page Not Found</h4>}
+      {status === "ERROR" && <h4>Connection Error</h4>}
+      {status === "SUCCESS" && (
         <div>
-            {isLoading ? (
-                <div>Loading ...</div>
-            ) : (
-            <div>
-                <pre>{JSON.stringify(eventData, null, 4)}</pre>
-            </div>
-            )}
+          <pre>{JSON.stringify(eventData, null, 4)}</pre>
         </div>
-    )
+      )}
+    </section>
+  )
 }
 
 export default AllEvents
