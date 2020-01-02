@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import useForm from "react-hook-form"
 import useGlobal from "../store/eventData"
-import axios from "axios"
+import useEventDataApi from "../actions/useEventDataApi"
 
 import "../styles/createEvent.scss"
 import "react-datepicker/dist/react-datepicker.css"
@@ -18,44 +18,20 @@ const ReadEvent = props => {
     console.log("rsvpEvent")
 
   }
- 
-  const [eventData, getEventData] = useState({})
-  const [url, setUrl] = useState(
+
+  const [{ eventData, status }] = useEventDataApi(
     "http://localhost:3000/calendar/" + props.community + "/" + "event/" + props.eventID + ""
-  )
-
-  const [isLoading, setIsLoading] = useState(true)
-  const [isError, setIsError] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsError(false)
-      setIsLoading(true)
-      try{
-        const result = await axios.get(url, {
-          // Axios looks for the `auth` option, and, if it is set, formats a
-          // basic auth header for you automatically.
-          auth: {
-            users: { 'admin': 'supersecret' }
-          }
-        });
-        getEventData(result.data)
-      } catch (error) {
-        setIsError(true)
-      }
-      setIsLoading(false)
-    }
-    fetchData()
-  }, [url])
+  );
 
   return (
     <div>
-      {isError && <div>Something went wrong ...</div>}
-      {isLoading ? (
-        <div>Loading ...</div>
-      ) : (
+      {status === "LOADING" && <h4>Loading...</h4>}
+      {status === "EMPTY" && <h4>This event has not been created</h4>}
+      {status === "NOT_FOUND" && <h4>404 - Page Not Found</h4>}
+      {status === "ERROR" && <h4>Connection Error</h4>}
+      {status === "SUCCESS" && (
         <div>
-          {/* <pre>{JSON.stringify(eventData[0], null, 4)}</pre> */}
+          {/* <pre>{JSON.stringify(eventData, null, 4)}</pre> */}
           <ul>
             <li>{JSON.stringify(eventData[0].id)}</li>
             <li>{JSON.stringify(eventData[0].title)}</li>
@@ -102,8 +78,6 @@ const ReadEvent = props => {
           </form>
         </div>
       )}
-      <h3>Data Response</h3>
-      <pre>{globalState.eventData}</pre>
     </div>
   )
 }

@@ -130,7 +130,7 @@ export const getEventByTitle = async (store, community, eventID, request = axios
       "http://localhost:3000/calendar/" + community + "/" + "event/" + eventID + ""
     );
     const eventData = response.data;
-    const iseventDataEmpty = eventData.length == 0;
+    const iseventDataEmpty = eventData.length === 0;
     const status = iseventDataEmpty ? "EMPTY" : "SUCCESS";
     store.setState({ eventData, status });
   } catch (error) {

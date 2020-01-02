@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { navigate } from "gatsby"
 import useForm from "react-hook-form"
 import useGlobal from "../store/eventData"
+import useEventDataApi from "../actions/useEventDataApi"
 import DatePicker from "react-datepicker"
 import moment from "moment"
 
@@ -12,7 +13,6 @@ import "react-datepicker/dist/react-datepicker.css"
 const UpdateEvent = props => {
   const { register, handleSubmit, setValue, errors } = useForm()
   const [globalState, globalActions] = useGlobal()
-  const { status, eventData } = globalState
 
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
@@ -26,13 +26,16 @@ const UpdateEvent = props => {
     console.log("updateEvent")
   }
 
-  if(eventData.length === 0 && status === "INITIAL"){
-    globalActions.getEventByTitle(props.community, props.eventID)
-  }
+  const [{ eventData, status }] = useEventDataApi(
+    "http://localhost:3000/calendar/" + props.community + "/" + "event/" + props.eventID + ""
+  );
 
   return (
     <section>
       {status === "LOADING" && <h4>Loading...</h4>}
+      {status === "EMPTY" && <h4>This event has not been created</h4>}
+      {status === "NOT_FOUND" && <h4>404 - Page Not Found</h4>}
+      {status === "ERROR" && <h4>Connection Error</h4>}
       {status === "SUCCESS" && (
           <div>
             <form id="updateEventForm" onSubmit={handleSubmit(updateEvent)}>
@@ -122,9 +125,6 @@ const UpdateEvent = props => {
             </form>
           </div>
       )}
-      {status === "EMPTY" && <h4>This event has not been created</h4>}
-      {status === "NOT_FOUND" && <h4>404 - Page Not Found</h4>}
-      {status === "ERROR" && <h4>Connection Error</h4>}
 
       {/* <h3>Data Response</h3>
       <pre>{globalState.eventData}</pre> */}
