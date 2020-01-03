@@ -1,8 +1,8 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    title: `Calendar App`,
+    description: `Calendar Application for Toll Brothers communities`,
+    author: `@ethaneisenhard`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -29,12 +29,8 @@ module.exports = {
       },
     },
     {
-      resolve: 'rest',
-      options: {
-        endpoints: [
-          'https://my-json-server.typicode.com/ethaneisenhard/calendarappdb/events'
-        ],
-      },
+      resolve: `gatsby-plugin-create-client-paths`,
+      options: { prefixes: [`/app/*`] },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
