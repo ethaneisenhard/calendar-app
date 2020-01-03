@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { navigate } from "gatsby"
 import useForm from "react-hook-form"
 import useGlobal from "../store/eventData"
-import axios from "axios"
 
 import "../styles/createEvent.scss"
 
@@ -23,6 +22,10 @@ const DeleteEvent = props => {
     )
 
     console.log("deleteEvent")
+  }
+
+  if(eventData.length === 0 && status === "INITIAL"){
+    globalActions.getEventByTitle(props.community, props.eventID)
   }
 
   return (

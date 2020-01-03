@@ -3,7 +3,7 @@ import { Link } from "gatsby"
 
 import "../styles/dashboard.scss"
 
-const Dashboard = () => {
+const Dashboard = props => {
    var currentPath = window.location.pathname
 
   return (
@@ -11,7 +11,7 @@ const Dashboard = () => {
       <header className="d-header">
         <div className="d-header-left">
           <h3>Admin Panel</h3>
-          <p>Community Name</p>
+          <p>{props.community}</p>
         </div>
         <div className="d-header-right">
           <Link to={`${currentPath}/createEvent`}>Create Event</Link>

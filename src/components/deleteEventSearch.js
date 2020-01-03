@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { navigate } from "gatsby"
 import useForm from "react-hook-form"
 import useGlobal from "../store/eventData"
-import axios from "axios"
+import useEventDataApi from "../utils/useEventDataApi"
 
 import "../styles/createEvent.scss"
 
@@ -14,9 +14,12 @@ const DeleteEventSearch = props => {
     const stringData = JSON.stringify(data)
 
     var shownVal = document.getElementById("data-choice")
+    var checkSearchNull = document.querySelector("#data option[value='" + shownVal.value + "']")
     
-    var value2send = document.querySelector("#data option[value='" + shownVal.value + "']").getAttribute("data-value")
-
+    if(checkSearchNull !== null){
+      var value2send = document.querySelector("#data option[value='" + shownVal.value + "']").getAttribute("data-value")
+    }
+    
     navigate(
       "app/dashboard/calendar/" + props.community + "/deleteEvent/" + value2send + "/"
     )
@@ -25,45 +28,20 @@ const DeleteEventSearch = props => {
     console.log("searchForEvent")
   }
 
-  const [eventData, getEventData] = useState()
-  const [url, setUrl] = useState(
+  const [{ eventData, status }] = useEventDataApi(
     "http://localhost:3000/calendar/" + props.community + "/"
-  )
+  );
 
-  const [isLoading, setIsLoading] = useState(true)
-  const [isError, setIsError] = useState(false)
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsError(false)
-      setIsLoading(true)
-      try {
-        const result = await axios.get(url)
-        getEventData(result.data)
-      } catch (error) {
-        setIsError(true)
-      }
-      setIsLoading(false)
-    }
-    fetchData()
-  }, [url])
 
   return (
     <div>
-      {isError && <div>Something went wrong ...</div>}
-      {isLoading ? (
-        <div>Loading ...</div>
-      ) : (
+      {status === "LOADING" && <h4>Loading...</h4>}
+      {status === "EMPTY" && <h4>This event has not been created</h4>}
+      {status === "NOT_FOUND" && <h4>404 - Page Not Found</h4>}
+      {status === "ERROR" && <h4>Connection Error</h4>}
+      {status === "SUCCESS" && (
         <div>
           <h1>Find and Delete an Event</h1>
-          {/* <pre>{JSON.stringify(eventData, null, 4)}</pre> */}
-          {/* <pre>
-                {eventData.map((item, key) => (
-                  <ul key={key} >
-                      <li>{item.title}</li>
-                  </ul>
-                ))}
-            </pre> */}
           {/* all forms must be required */}
           <form
             id="searchEventForm"

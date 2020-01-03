@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import useForm from "react-hook-form"
 import useGlobal from "../store/eventData"
-import useEventDataApi from "../actions/useEventDataApi"
+import useEventDataApi from "../utils/useEventDataApi"
 
 import "../styles/createEvent.scss"
 import "react-datepicker/dist/react-datepicker.css"
