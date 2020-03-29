@@ -1,6 +1,6 @@
-# tb-calendar-app
+# calendar-app
 
-Start `tb-calendar-db` first, else there will be a localhost conflict 
+Start `calendarappdb` first, else there will be a localhost conflict 
 
 In order
 
