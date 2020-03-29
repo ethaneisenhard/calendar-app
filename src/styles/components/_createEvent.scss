@@ -1,0 +1,116 @@
+#createEvent {
+
+    #createEventForm {
+        display: flex;
+        flex-flow: column;
+
+        .repeat-selector-wrapper{
+            display: flex;
+            flex-flow:column;
+            align-items: center;
+            justify-content: space-between;
+
+            @include breakpoint(md) {
+                flex-flow:row;
+            }
+        }
+
+        .select-wrap__repeats{
+            width: 100%;
+        }
+
+        #every-selector{
+            width: 100%;
+
+            @include breakpoint(md) {
+                width: 49%;
+            }
+
+            label{
+                top: 16px;
+                margin-top: 0;
+                font-size: .72em;
+            }
+
+            span{
+                left: 52px;
+                bottom: 7px;
+                position: absolute;
+            }
+        }
+
+        #yearly-every-selector{
+            width: 100%;
+
+            @include breakpoint(md) {
+                width: 49%;
+            }
+
+            margin: .8em 0em;
+        }
+
+        #monthly-day-selector{
+            display: flex;
+            width: 100%;
+
+            @include breakpoint(md) {
+                width: 49%;
+            }
+            
+            .months{
+                display: inline-block;
+                margin-right: 1em;
+                width: 100%;
+            }
+        }
+
+        #days-selector{
+            margin: .8em 0em;
+            display: inline-block;
+        }
+
+        #weekDays-selector{
+            margin: .8em 0em;
+            width: 49%;
+        }
+
+
+        #weekDays-selector input {
+         display:none
+        }
+
+        #weekDays-selector input[type=checkbox]+label {
+            display: inline-block;
+            border-radius: 6px;
+            background: #dddddd;
+            height: 40px;
+            width: 30px;
+            margin-right: 3px;
+            line-height: 40px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        #weekDays-selector input[type=checkbox]:checked+label {
+            background: var(--main-color);
+            color: #ffffff;
+        }
+
+        .date {
+
+            .react-datepicker-wrapper {
+                width: 100%;
+            }
+
+            input {
+                width: 100%;
+
+            }
+
+            label {
+                display: block;
+            }
+        }
+    }
+
+}

@@ -1,0 +1,46 @@
+body.Azure{
+    --main-color: #7BBCD1;
+    --main-rgba-color: 123,188,209;
+    --secondary-color: #005A95;
+    --secondary-rgba-color: 0,90,149;
+    --banner-color: #F6FAFB;
+
+
+    #calendar-page{
+
+        .dateSelect{
+
+            svg{
+                path{
+                    fill:white;
+                }
+            }
+            
+        }
+        
+        .community{
+            display: flex;
+            align-items: center;
+
+            .communityImgLeft{
+                display: block;
+                width: 200px;
+                height: 138px;
+                background-image: url("../images/Azure/headerBranchLeft.png");
+                background-repeat: no-repeat;
+                background-position: top left;
+            }
+    
+            .communityImgRight{
+                display: block;
+                width: 200px;
+                height: 138px;
+                background-image: url("../images/Azure/headerBranchRight.png");
+                background-repeat: no-repeat;
+                background-position: top right;
+            }
+    
+        }
+    }
+    
+}

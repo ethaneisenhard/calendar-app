@@ -1,40 +1,29 @@
-import React, { useState, useEffect }  from 'react'
-import axios from "axios"
+import React from "react";
+import useEventDataApi from "../utils/useEventDataApi";
 
 const AllEvents = props => {
 
-  var community = props.community;
+  var capitalizeCommunity = props.community.charAt(0).toUpperCase() + props.community.slice(1);
 
-  const [eventData, getEventData] = useState({});
-  const [url, setUrl] = useState(
-    'http://localhost:3000/calendar/'+community+'/',
+  var tableName = "Calendar-"+capitalizeCommunity;
+
+  const [{ eventData, status }] = useEventDataApi(
+    "http://localhost:3000/calendar/" + tableName + "/"
   );
 
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      const result = await axios.get(url);
-      getEventData(result.data);
-      setIsLoading(false);
-    };
-    fetchData();
-    
-  }, [url]);
-    
-
-    return(
+  return (
+    <div>
+      {status === "LOADING" && <h4>Loading...</h4>}
+      {status === "EMPTY" && <h4>This event has not been created</h4>}
+      {status === "NOT_FOUND" && <h4>404 - Page Not Found</h4>}
+      {status === "ERROR" && <h4>Connection Error</h4>}
+      {status === "SUCCESS" && (
         <div>
-            {isLoading ? (
-                <div>Loading ...</div>
-            ) : (
-            <div>
-                <pre>{JSON.stringify(eventData, null, 4)}</pre>
-            </div>
-            )}
+          <pre>{JSON.stringify(eventData, null, 4)}</pre>
         </div>
-    )
-}
+      )}
+    </div>
+  );
+};
 
-export default AllEvents
+export default AllEvents;

@@ -1,0 +1,114 @@
+#updateEvent{
+    #updateEventForm{
+        display: flex;
+        flex-flow: column;
+    
+        &.is-hidden{
+          display:none;
+        }
+    
+        .date{
+    
+            .react-datepicker-wrapper{
+                width:100%;
+            }
+    
+            input{
+                width:100%;
+    
+            }
+            label{
+                display: block;
+            }
+        }        
+    }
+
+    .manageRSVP{
+        display: none;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background: 0;
+        height: 100%;
+        transition: background 1s ease;
+
+        &.is-active{
+            display: flex;
+        }
+
+        &.animate-background{
+            background: rgba(0, 0, 0, 0.8);
+        }
+    }
+
+    .manageRSVP-wrapper{
+        opacity: 0;
+        background: white;
+        opacity: 0;
+        transform: scale(0);
+        width: 80%;
+        height: 80%;
+        transition: transform .3s cubic-bezier(.8,-.4,.2,1.44) 0s, opacity .3s cubic-bezier(.8,-.4,.2,1.44) 0s;
+        border-radius: 6px 6px 0 0;
+        overflow-y: scroll;
+
+        &.is-active{
+            opacity: 1;
+        }
+
+        &.animate-transform{
+            transform: scale(1);
+        }
+
+        .manageRSVP-header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2em;
+            background-color: #F2F2F2;
+            border-radius: 6px 6px 0 0;
+
+            h4{
+                display: flex;
+                align-items: center;
+                margin-bottom: 0;
+            }
+
+            svg{
+                margin-right: 1em;
+            }
+
+            .closeManageRSVP{
+                background-color: transparent;
+            }
+        }
+
+        .rsvpList-wrapper{
+            padding: 2em;
+
+            .rsvpList{
+                padding: 1em 0;
+                border-bottom: 1px solid black;
+            }
+
+            h4{
+                margin-bottom: .5em;
+            }
+
+            .rsvpName{
+                margin-bottom: 0;
+                font-weight: 500;
+            }
+
+            .rsvpGuests{
+                font-size: 12px;
+                margin-bottom: 0;
+            }
+
+        }
+    }
+}
+

@@ -1,0 +1,91 @@
+$base_font_family: "Gotham",sans-serif;
+$header_font_family: "mrs-eaves", "Times New Roman", Georgia, Serif;
+$copper_font_family: "copperplate",sans-serif;
+
+$base_font_weight_thin: 200;
+$base_font_weight_normal: 300;
+$base_font_weight_thick: 400;
+$base_font_weight_bold: 700;
+
+$base_font_size: 15px;
+$base_line_height: 1.5;
+$base_font_color: #25211e;
+
+
+body {
+    text-rendering: optimizeLegibility;
+    //-webkit-font-smoothing: subpixel-antialiased;
+    -webkit-font-smoothing: antialiased;
+    font-family: $base_font_family;
+    font-size: $base_font_size;
+    font-weight: $base_font_weight_normal;
+    color: $base_font_color;
+
+}
+
+body {
+    text-rendering: optimizeLegibility;
+    //-webkit-font-smoothing: subpixel-antialiased;
+    -webkit-font-smoothing: antialiased;
+    font-family: $base_font_family;
+    font-size: $base_font_size;
+    font-weight: $base_font_weight_normal;
+    color: $base_font_color;
+
+}
+
+@font-face {
+    font-family: "Gotham";
+    src: url("https://cdn.tollbrothers.com/fonts/gotham/woff2/GothamSSm-XLight_Web.woff2") format("woff2"),url("https://cdn.tollbrothers.com/fonts/gotham/woff/GothamSSm-XLight_Web.woff") format("woff");
+    font-weight: 200;
+    font-style: normal
+}
+
+@font-face {
+    font-family: "Gotham";
+    src: url("https://cdn.tollbrothers.com/fonts/gotham/woff2/GothamSSm-XLightItalic_Web.woff2") format("woff2"),url("https://cdn.tollbrothers.com/fonts/gotham/woff/GothamSSm-XLightItalic_Web.woff") format("woff");
+    font-weight: 200;
+    font-style: italic
+}
+
+@font-face {
+    font-family: "Gotham";
+    src: url("https://cdn.tollbrothers.com/fonts/gotham/woff2/GothamSSm-Light_Web.woff2") format("woff2"),url("https://cdn.tollbrothers.com/fonts/gotham/woff/GothamSSm-Light_Web.woff") format("woff");
+    font-weight: 300;
+    font-style: normal
+}
+
+@font-face {
+    font-family: "Gotham";
+    src: url("https://cdn.tollbrothers.com/fonts/gotham/woff2/GothamSSm-LightItalic_Web.woff2") format("woff2"),url("https://cdn.tollbrothers.com/fonts/gotham/woff/GothamSSm-LightItalic_Web.woff") format("woff");
+    font-weight: 300;
+    font-style: italic
+}
+
+@font-face {
+    font-family: "Gotham";
+    src: url("https://cdn.tollbrothers.com/fonts/gotham/woff2/GothamSSm-Book_Web.woff2") format("woff2"),url("https://cdn.tollbrothers.com/fonts/gotham/woff/GothamSSm-Book_Web.woff") format("woff");
+    font-weight: 400;
+    font-style: normal
+}
+
+@font-face {
+    font-family: "Gotham";
+    src: url("https://cdn.tollbrothers.com/fonts/gotham/woff2/GothamSSm-BookItalic_Web.woff2") format("woff2"),url("https://cdn.tollbrothers.com/fonts/gotham/woff/GothamSSm-BookItalic_Web.woff") format("woff");
+    font-weight: 400;
+    font-style: italic
+}
+
+@font-face {
+    font-family: "Gotham";
+    src: url("https://cdn.tollbrothers.com/fonts/gotham/woff2/GothamSSm-Medium_Web.woff2") format("woff2"),url("https://cdn.tollbrothers.com/fonts/gotham/woff/GothamSSm-Medium_Web.woff") format("woff");
+    font-weight: 500;
+    font-style: normal
+}
+
+@font-face {
+    font-family: "Gotham";
+    src: url("https://cdn.tollbrothers.com/fonts/gotham/woff2/GothamSSm-MediumItalic_Web.woff2") format("woff2"),url("https://cdn.tollbrothers.com/fonts/gotham/woff/GothamSSm-MediumItalic_Web.woff") format("woff");
+    font-weight: 500;
+    font-style: italic
+}

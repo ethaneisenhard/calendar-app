@@ -6,15 +6,29 @@ export const setEvent = (store, data) => {
 
   const community = parseData.community;
 
+  console.log(community)
+
   const url = "http://localhost:3000/calendar/"+community+"/addEvent"
 
   const formData = {
     id: parseData.id,
     title: parseData.title,
+    // heroImage: parseData.heroImage,
     eventLocation: parseData.eventLocation,
+    dailyActivity: parseData.dailyActivity, 
     startDate: parseData.startDate, 
     endDate: parseData.endDate,
-    description: parseData.description
+    description: parseData.description, 
+    availableSpots: parseData.availableSpots, 
+    repeats: parseData.repeats, 
+    every: parseData.every, 
+    daysOfWeek: parseData.daysOfWeek, 
+    daysOfMonth: parseData.daysOfMonth, 
+    monthsOfYear: parseData.monthsOfYear, 
+    dayNumber: parseData.dayNumber, 
+    dayType: parseData.dayType, 
+    ogStartDate: parseData.ogStartDate, 
+    ogEndDate: parseData.ogEndDate
   }
 
   const config = {
@@ -48,6 +62,8 @@ export const updateEvent = (store, data) => {
     eventLocation: parseData.eventLocation,
     startDate: parseData.startDate, 
     endDate: parseData.endDate,
+    ogStartDate: parseData.ogStartDate, 
+    ogEndDate: parseData.ogEndDate,
     description: parseData.description
   }
 
@@ -82,7 +98,9 @@ export const rsvpEvent = (store, data) => {
     fullName: parseData.fullName,
     email: parseData.email,
     guests: parseData.guests, 
-    rsvp: parseData.rsvp
+    rsvpList: parseData.rsvpList,
+    rsvpOBJ: parseData.rsvpOBJ,
+    dateOfEvent: parseData.dateOfEvent
   }
 
   const config = {
@@ -127,7 +145,7 @@ export const getEventByTitle = async (store, community, eventID, request = axios
   store.setState({ status });
   try {
     const response = await request.get(
-      "http://localhost:3000/calendar/" + community + "/" + "event/" + eventID + ""
+      "http://localhost:3000/calendar/" + community + "/event/" + eventID
     );
     const eventData = response.data;
     const iseventDataEmpty = eventData.length === 0;

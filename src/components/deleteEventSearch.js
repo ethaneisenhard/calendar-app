@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { navigate } from "gatsby"
-import useForm from "react-hook-form"
+import {useForm} from "react-hook-form"
 import useGlobal from "../store/eventData"
 import useEventDataApi from "../utils/useEventDataApi"
-
-import "../styles/createEvent.scss"
 
 const DeleteEventSearch = props => {
   const { register, handleSubmit, errors } = useForm()
   const [globalState, globalActions] = useGlobal()
 
-  const updateEventSearchForm = data => {
-    const stringData = JSON.stringify(data)
+  var capitalizeCommunity = props.community.charAt(0).toUpperCase() + props.community.slice(1);
+
+  var tableName = "Calendar-"+capitalizeCommunity;
+
+  const updateEventSearchForm = () => {
+    // const stringData = JSON.stringify(data)
 
     var shownVal = document.getElementById("data-choice")
     var checkSearchNull = document.querySelector("#data option[value='" + shownVal.value + "']")
@@ -24,24 +26,24 @@ const DeleteEventSearch = props => {
       "app/dashboard/calendar/" + props.community + "/deleteEvent/" + value2send + "/"
     )
 
-    globalActions.getEventByTitle(props.community, value2send)
+    globalActions.getEventByTitle(tableName, value2send)
     console.log("searchForEvent")
   }
 
   const [{ eventData, status }] = useEventDataApi(
-    "http://localhost:3000/calendar/" + props.community + "/"
+    "http://localhost:3000/calendar/" + tableName + "/"
   );
 
 
   return (
-    <div>
+    <section id = "deleteEventSearch">
       {status === "LOADING" && <h4>Loading...</h4>}
       {status === "EMPTY" && <h4>This event has not been created</h4>}
       {status === "NOT_FOUND" && <h4>404 - Page Not Found</h4>}
       {status === "ERROR" && <h4>Connection Error</h4>}
       {status === "SUCCESS" && (
-        <div>
-          <h1>Find and Delete an Event</h1>
+        <div className="deleteEventSearch-wrapper">
+          <h2>Find and Delete an Event</h2>
           {/* all forms must be required */}
           <form
             id="searchEventForm"
@@ -79,7 +81,7 @@ const DeleteEventSearch = props => {
         </div>
       )}
       {props.children}
-    </div>
+    </section>
   )
 }
 

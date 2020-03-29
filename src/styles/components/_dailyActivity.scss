@@ -1,0 +1,48 @@
+#dailyActivity{
+
+    .dailyActivity-header{
+        border-bottom: 1px solid var(--main-color);
+        margin-bottom: 2em;
+
+        p{
+            margin-bottom: 1em;
+
+            img{
+                margin-right: 1em;
+                
+            }
+        }
+        
+    }
+
+    .dailyActivityLink{
+        padding: 1em 0em;
+        border-bottom: 1px solid var(--main-color);
+
+        &:last-child{
+            border-bottom: 0px;
+        }
+
+        a{
+            display:flex;
+        }
+
+        span{
+            display:block;
+        }
+
+        .time{
+            width: 20%;
+
+            .endTime{
+                font-size: .8em;
+                color: black;
+            }
+        }
+
+        .location{
+            width: 80%;
+        }
+
+    }
+}

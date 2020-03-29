@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react"
-import useForm from "react-hook-form"
+import {useForm} from "react-hook-form"
 import useGlobal from "../store/eventData"
 import axios from "axios"
 
-import "../styles/createEvent.scss"
+import "../styles/"
 
 const Default = props => {
   const { register, handleSubmit, errors } = useForm()
